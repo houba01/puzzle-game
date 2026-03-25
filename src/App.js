@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 const IMAGE = "/puzzle.jpg";
 const GRID = 3;
-const SIZE = 90; // smaller for mobile
+const SIZE = 90;
 
 const QUESTIONS = {
   0: { q: "هل للطفل الحق في التعليم؟", a: "نعم", o: ["نعم", "لا"] },
@@ -29,13 +29,11 @@ const stylePiece = (i, size) => {
 export default function App() {
   const [pieces, setPieces] = useState([]);
   const [board, setBoard] = useState(Array(9).fill(null));
-  const [dragged, setDragged] = useState(null);
+  const [selected, setSelected] = useState(null);
   const [quiz, setQuiz] = useState(null);
   const [targetCell, setTargetCell] = useState(null);
   const [msg, setMsg] = useState("");
   const [win, setWin] = useState(false);
-
-  // TIMER
   const [time, setTime] = useState(0);
 
   useEffect(() => {
@@ -43,7 +41,7 @@ export default function App() {
     setPieces(shuffled);
   }, []);
 
-  // start timer
+  // timer
   useEffect(() => {
     const interval = setInterval(() => {
       setTime((t) => t + 1);
@@ -52,34 +50,31 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (board.every((c, i) => c === i)) {
-      setWin(true);
-    }
+    if (board.every((c, i) => c === i)) setWin(true);
   }, [board]);
 
-  const handleDrag = (p) => setDragged(p);
+  const handleCellClick = (i) => {
+    if (selected === null || board[i] !== null) return;
 
-  const handleDrop = (i) => {
-    if (dragged === null || board[i] !== null) return;
-    setQuiz(QUESTIONS[dragged]);
+    setQuiz(QUESTIONS[selected]);
     setTargetCell(i);
   };
 
   const answer = (opt) => {
-    if (opt === QUESTIONS[dragged].a) {
+    if (opt === QUESTIONS[selected].a) {
       setMsg("✅ صحيح!");
 
       setTimeout(() => {
-        if (targetCell === dragged) {
+        if (targetCell === selected) {
           const newBoard = [...board];
-          newBoard[targetCell] = dragged;
+          newBoard[targetCell] = selected;
           setBoard(newBoard);
-          setPieces(pieces.filter((p) => p !== dragged));
+          setPieces(pieces.filter((p) => p !== selected));
         } else {
           setMsg("❌ البلاصة غالطة!");
         }
 
-        setDragged(null);
+        setSelected(null);
         setQuiz(null);
       }, 500);
     } else {
@@ -87,7 +82,6 @@ export default function App() {
     }
   };
 
-  // format time
   const formatTime = () => {
     const min = Math.floor(time / 60);
     const sec = time % 60;
@@ -105,7 +99,7 @@ export default function App() {
       <h1 style={{ color: "#facc15", fontSize: 22 }}>🧩 Ultra Puzzle Game</h1>
 
       {/* TIMER */}
-      <p style={{ fontSize: 18 }}>⏱ {formatTime()}</p>
+      <p>⏱ {formatTime()}</p>
 
       {/* BOARD */}
       <div style={{
@@ -118,8 +112,7 @@ export default function App() {
         {board.map((p, i) => (
           <div
             key={i}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={() => handleDrop(i)}
+            onClick={() => handleCellClick(i)}
             style={{
               width: SIZE,
               height: SIZE,
@@ -141,21 +134,20 @@ export default function App() {
         {pieces.map((p) => (
           <div
             key={p}
-            draggable
-            onDragStart={() => handleDrag(p)}
+            onClick={() => setSelected(p)}
             style={{
               width: 70,
               height: 70,
-              border: "2px solid #3b82f6",
+              border: selected === p ? "3px solid yellow" : "2px solid #3b82f6",
               borderRadius: 10,
-              cursor: "grab",
+              cursor: "pointer",
               ...stylePiece(p, 70)
             }}
           />
         ))}
       </div>
 
-      <p style={{ fontSize: 16 }}>{msg}</p>
+      <p>{msg}</p>
 
       {/* QUIZ */}
       {quiz && (
