@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
-const IMAGE = "/puzzle.jpg";
+const IMAGE = "/puzzle.png";
 const GRID = 3;
 const SIZE = 100;
-
+const LOGO = "/logo.png"; // بدل الاسم متاع اللوجو متاعك
 const QUESTIONS = {
   0: { q: "في أي سنة تم اعتماد اتفاقية حقوق الطفل؟", a: "1989", o: ["1975", "1989", "1995", "2001"] },
   1: { q: "أي منظمة عالمية تُعنى أساسًا بحماية حقوق الطفل؟", a: "UNICEF", o: ["UNESCO", "UNICEF", "WHO", "IMF"] },
@@ -15,6 +15,7 @@ const QUESTIONS = {
   7: { q: "ماذا تعني كلمة UNICEF؟", a: "صندوق الأمم المتحدة للطفولة", o: ["منظمة التعليم", "صندوق الأمم المتحدة للطفولة", "منظمة الصحة", "بنك دولي"] },
   8: { q: "حق اللعب مهم لأنه:", a: "يساعد على النمو والتوازن النفسي", o: ["مضيعة للوقت", "يساعد على النمو والتوازن النفسي", "غير ضروري", "للأطفال فقط في العطل"] },
 };
+
 
 const stylePiece = (i, size) => {
   const row = Math.floor(i / GRID);
@@ -193,14 +194,16 @@ export default function App() {
         .board-section { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .board-label { font-size: 11px; color: #475569; letter-spacing: 2px; text-transform: uppercase; }
         .board-grid {
-          display: grid;
-          grid-template-columns: repeat(3, ${SIZE}px);
-          gap: 5px;
-          padding: 10px;
-          background: rgba(255,255,255,0.03);
-          border-radius: 18px;
-          border: 1px solid rgba(255,255,255,0.07);
-        }
+  display: grid;
+  grid-template-columns: repeat(3, ${SIZE}px);
+  gap: 5px;
+  padding: 10px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.07);
+
+  direction: ltr; /* ✅ هذا هو الحل */
+}
 
         .cell {
           width: ${SIZE}px;
@@ -241,16 +244,18 @@ export default function App() {
         .tray-section { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .tray-label { font-size: 11px; color: #475569; letter-spacing: 2px; text-transform: uppercase; }
         .tray {
-          display: flex;
-          justify-content: center;
-          flex-wrap: wrap;
-          gap: 8px;
-          padding: 12px 14px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 16px;
-          max-width: min(360px, 95vw);
-        }
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  max-width: min(360px, 95vw);
+
+  direction: ltr; /* ✅ مهم */
+}
         .piece {
           width: 75px;
           height: 75px;
