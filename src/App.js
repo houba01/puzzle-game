@@ -456,7 +456,7 @@ export default function App() {
       <div className="app">
         {/* HEADER */}
         <div className="header">
-          <h1 className="title">🧩 PUZZLE QUIZ</h1>
+          <h1 className="title">🧩 PUZZLE ONET</h1>
           <p className="subtitle">حقوق الطفل</p>
         </div>
 
