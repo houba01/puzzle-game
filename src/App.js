@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 const IMAGE = "/puzzle.png";
 const GRID = 3;
 const SIZE = 100;
-const LOGO = "/logo.png"; // بدل الاسم متاع اللوجو متاعك
 const QUESTIONS = {
   0: { q: "في أي سنة تم اعتماد اتفاقية حقوق الطفل؟", a: "1989", o: ["1975", "1989", "1995", "2001"] },
   1: { q: "أي منظمة عالمية تُعنى أساسًا بحماية حقوق الطفل؟", a: "UNICEF", o: ["UNESCO", "UNICEF", "WHO", "IMF"] },
